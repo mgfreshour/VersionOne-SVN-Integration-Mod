@@ -1,0 +1,5 @@
+I was working on a project that had several different svn repositories (for 
+each model) but a single VersionOne project.  So, I modified the V1 SVN 
+integrater to allow for multiple repositories.  While I was at it, I started 
+adding other features and decided to make the changes public for all.  The 
+original license in license.rtf still holds.
