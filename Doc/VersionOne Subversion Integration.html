@@ -1,0 +1,408 @@
+<!--(c) Copyright 2010, VersionOne, Inc. All rights reserved. (c)-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>VersionOne Subversion Integration</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+<td style="width:10%"/>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            VersionOne Subversion Integration
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on Jul 15, 2010 by <font color="#0050B2">jerry</font>.
+                                    </div>
+
+				    <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1279205552102 {margin-left: 0px;padding: 0px;}
+div.rbtoc1279205552102 ul {list-style: none;margin-left: 0px;}
+div.rbtoc1279205552102 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='rbtoc1279205552102'>
+<ul>
+    <li><span class='TOCOutline'>1</span> <a href='#VersionOneSubversionIntegration-Description'>Description</a></li>
+    <li><span class='TOCOutline'>2</span> <a href='#VersionOneSubversionIntegration-SystemRequirements'>System Requirements</a></li>
+    <li><span class='TOCOutline'>3</span> <a href='#VersionOneSubversionIntegration-Download'>Download</a></li>
+    <li><span class='TOCOutline'>4</span> <a href='#VersionOneSubversionIntegration-Installation'>Installation</a></li>
+    <li><span class='TOCOutline'>5</span> <a href='#VersionOneSubversionIntegration-Configuration'>Configuration</a></li>
+<ul>
+    <li><span class='TOCOutline'>5.1</span> <a href='#VersionOneSubversionIntegration-ConfiguretheIntegration'>Configure the Integration </a></li>
+</ul>
+    <li><span class='TOCOutline'>6</span> <a href='#VersionOneSubversionIntegration-TechnicalDetails'>Technical Details</a></li>
+</ul></div>
+
+<h2><a name="VersionOneSubversionIntegration-Description"></a>Description</h2>
+<p>The VersionOne Subversion Integration (V1Svn) creates a record of Subversion changesets in VersionOne, so the development team can quickly view all of the code changes for a story or defect. This visibility can be useful when tracking down defects or performing code reviews.</p>
+
+<p>Once V1Svn has been installed, development team members include a story or defect ID, such as “S-01454” in their Subversion commit messages. V1Svn checks each commit message for IDs and creates a changeset within VersionOne for each story or defect matching the entered IDs. A changeset is the collection of changes for a single revision in Subversion. The changesets for each story or defect are viewable on the details page of that item in VersionOne. Additionally, V1Svn has the capability to create link on the changeset in VersionOne that navigates to the changeset in a Subversion repository viewer</p>
+
+<p>The following sequence diagram illustrates how V1Svn interacts with Subversion and VersionOne.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 602x520" href='attachments/Subversion/7209193.png'><img src="attachments/thumbnails/Subversion/7209193" border="0"/></a></span></p>
+
+<h2><a name="VersionOneSubversionIntegration-SystemRequirements"></a>System Requirements</h2>
+<ul>
+	<li>VersionOne: 7.1 or above</li>
+	<li>Integration Server:
+	<ul>
+		<li>Operating System—Windows 2003, 2008</li>
+		<li>Framework—Microsoft .Net 2.0 SP1</li>
+	</ul>
+	</li>
+	<li>Subversion Server:
+	<ul>
+		<li>Tested with Subversion Server 1.6.2</li>
+		<li>Protocol — svn, http, https</li>
+		<li>Basic SVN authentication or Anonymous</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h2><a name="VersionOneSubversionIntegration-Download"></a>Download</h2>
+<p>The latest version of V1Svn is available from <a href="http://community.versionone.com/Downloads/default.aspx">the VersionOne Community site </a></p>
+
+<h2><a name="VersionOneSubversionIntegration-Installation"></a>Installation </h2>
+<p>These installation instructions assume that Subversion is already installed, configured, and working properly.</p>
+<ol>
+	<li>Determine Install Location<br/>
+V1Svn can be installed on any server with network access to both VersionOne and Subversion.  Exact placement should be determined by your internal software management requirements. The integration server must meet the System Requirements stated above.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Extract Files<br/>
+Download V1Svn using the link above and extract it into a folder of your choice.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Configure<br/>
+Instructions for configuring V1Svn are located below in the <a href="#VersionOneSubversionIntegration-ConfigureServiceHost">"Configure The Integration"</a> section<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Start integration<br/>
+Open up the command prompt, navigate to your installation folder, and run the following command:
+<blockquote><p><tt>VersionOne.ServiceHost.exe</tt></p></blockquote>
+<p>If you have configured your system properly, you should see several [Info] messages followed by a [Startup] message.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></p></li>
+	<li>Test the integration<br/>
+To ensure the integration is working, perform the following steps:
+	<ol>
+		<li>Commit a change to your Subversion repository with a message of “test”. You should see the following output:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+[Info] Publishing ChangeSet: #, <span class="code-quote">"test"</span>; No References found.
+[Info] No Change Set References. Ignoring Change Set: #
+</pre>
+</div></div></li>
+		<li>Commit a change to your svn repository with a message of <em>“S-01001”</em>. You should see the following output:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+[Info] Publishing ChangeSet: #, <span class="code-quote">"S-01001"</span>; references: S-01001
+</pre>
+</div></div></li>
+		<li>Shut down the service host by pressing “Q” in the console window.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	</ol>
+	</li>
+	<li>Install as a Windows Service<br/>
+Run the following command from the console window:
+<blockquote><p><tt>VersionOne.ServiceHost.exe --install</tt></p></blockquote>
+<p>This command installs the service so it will will run under the account NT AUTHORITY\Local Service. Local Service must be given access privileges to the directory where the V1ClearQuest executable was installed so it can store its state and write to log files. Follow the steps below to change the security on the installation directory:</p>
+	<ol>
+		<li>Right click the installation folder from Windows Explorer.</li>
+		<li>Select "properties".</li>
+		<li>Select the "Security" tab.</li>
+		<li>Click the "Add" button.</li>
+		<li>Enter "Local Service" and click "OK".</li>
+		<li>Click the "Allow" checkbox for the "Full Control" row .</li>
+		<li>Click "OK" to save the changes.</li>
+	</ol>
+	</li>
+</ol>
+
+
+<h2><a name="VersionOneSubversionIntegration-Configuration"></a>Configuration</h2>
+<h3><a name="VersionOneSubversionIntegration-ConfiguretheIntegration"></a>Configure the Integration<a name="VersionOneSubversionIntegration-ConfigureServiceHost"></a> </h3>
+<p>To configure V1Svn you need to run the ServiceHost configuration tool</p>
+<blockquote><p><tt>ServiceHostConfigTool.exe</tt></p></blockquote>
+<p>The following section describes how to configure your Subversion integration using the use the configuration tool </p>
+<ol>
+	<li>Specify your VersionOne connection details on the <b>General</b><br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Subversion/7209188.png'><img src="attachments/thumbnails/Subversion/7209188" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Server URL</td>
+<td class='confluenceTd'>This is the URL to your VersionOne server</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>VersionOne user that will create defects</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Password for the specified user</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Use Windows Integrated Authentication</td>
+<td class='confluenceTd'>Check this box if you VersionOne server is configured to use Windows Integrated Authentication</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>When using the integrated authentication, V1Svn will authenticate to VersionOne using the Windows domain user under which the executable is running if both the username and password parameters are blank. If the username and password is entered, you must specify the windows domain account in the form "User@FullyQualifiedDomainName". If you are unsure what the fully qualified domain name is, see the Domain name shown on the 'Computer Name' tab in the My Computer...Properties dialog.</td></tr></table></div></li>
+	<li>Once the VersionOne parameters are entered, press Verify button to continue.</li>
+	<li>Specify how to create a VersionOne Change set and link it to Subverison on the <b>Changesets</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Subversion/7209189.png'><img src="attachments/thumbnails/Subversion/7209189" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box to disable ChangeSet creation in VersionOne.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Change Comment</td>
+<td class='confluenceTd'>The VersionOne ChangeSet creation comment.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Always Create ChangeSet</td>
+<td class='confluenceTd'>If checked, a VersionOne ChangeSet is created for each Subversion ChangeSet.  If cleared, the VersioOne ChangeSet is only created if a VersionOne identifier can be found in the Subversion commit comment.</td>
+</tr>
+</tbody></table>
+</div>
+
+<p>The Link Properties section contains the following fields</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Add To Menu</td>
+<td class='confluenceTd'>If checked, the link between VersionOne and Subversion is placed on the ChangeSet Details page tab menu.  If cleared, there is no tab menu element for the link.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Name</td>
+<td class='confluenceTd'>Friendly name for this link. Defaults to "ChangeSet {0}" and the {0} is replaced with the Subversion ChangeSet Identifier</td>
+</tr>
+<tr>
+<td class='confluenceTd'>URL</td>
+<td class='confluenceTd'>Fully qualified URL to your web based Subversion Viewer (i.e. <a href="http://www.viewvc.org/">ViewVC</a>).  The Subversion ChangeSet identifier is set by putting {0} in the URL</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Specify your Subversion connection details and how the integration will identify ChangeSets for VersionOne on the <b>Subversion</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Subversion/7209190.png'><img src="attachments/thumbnails/Subversion/7209190" border="0"/></a></span>
+	<ol>
+		<li>Configure the Subversion connection (Connection Parameters)
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box if you want to disable polling Subversion for ChangeSets.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Path</td>
+<td class='confluenceTd'>Fully qualified URL to the Subversion repository monitored by this integration instance.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>User Name</td>
+<td class='confluenceTd'>Valid Subversion user for the repository specified</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Password for specified user</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+		<li>Click Verify to ensure the connection parameters are correct.</li>
+		<li>Configure how to identify ChangesSets
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Regular Expression</td>
+<td class='confluenceTd'>This is the Regular Expression used to search Subversion commit comments for VersionOne identifiers.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Poll Interval</td>
+<td class='confluenceTd'>Determines how frequently the integration polls Subversion looking for Defects.</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>Here are some sample Regular Expressions:
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<td class='confluenceTd'>To Match S-01001 (Matches "S-01001")</td>
+<td class='confluenceTd'><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">[A-Z]{1,2}-[0-9]+</pre>
+</div></div></td>
+</tr>
+<tr>
+<td class='confluenceTd'>To match #Reference (matches only "Reference")</td>
+<td class='confluenceTd'><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">(?&lt;=#)[a-zA-Z]+\b</pre>
+</div></div></td>
+</tr>
+<tr>
+<td class='confluenceTd'>To match "V1:Reference"  (matches only "Reference")</td>
+<td class='confluenceTd'><div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">(?&lt;=V1:)[a-zA-Z]+\b</pre>
+</div></div></td>
+</tr>
+</tbody></table>
+</div>
+</td></tr></table></div></li>
+	</ol>
+	</li>
+	<li>Save your changes and exit the program</li>
+</ol>
+
+
+<h2><a name="VersionOneSubversionIntegration-TechnicalDetails"></a>Technical Details</h2>
+<h4><a name="VersionOneSubversionIntegration-VersionOne.ServiceHost.exe.config"></a>VersionOne.ServiceHost.exe.config</h4>
+<p>VersionOne.ServiceHost.exe.config is the file that controls the behavior of <em>VersionOne.ServiceHost.exe</em>.  Values in this file are set by the configuration tool (<a href="#VersionOneSubversionIntegration-ConfigureServiceHost"><em>ServiceHostConfigTool.exe</em></a>).  This section is provided for informational use only.  Users are discouraged from editing this file directly.</p>
+
+<p>The <b>SvnReaderService</b> Element controls how the integration communicates with Subversion.  The following table describes the elements nested under SvnReaderService.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>RepositoryPath</td>
+<td class='confluenceTd'>Subversion repository URL</td>
+</tr>
+<tr>
+<td class='confluenceTd'>UserName</td>
+<td class='confluenceTd'>Subversion user name. If omitted or empty, anonymous access will be used</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Subversion password (can be empty). If omitted, anonymous access will be used.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>ReferenceExpression</td>
+<td class='confluenceTd'>Regular Expression used to locate a VersionOne identifier in the Subversion commit comment</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>The ChangeSetWriterService element controls how ChangeSets are created in VersionOne. The following table describes the elements nested under ChangeSetWriterService. ||Element Name||Description||</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<td class='confluenceTd'>ReferenceAttribute</td>
+<td class='confluenceTd'>The VersionOne filter attribute to use when retrieving workitems from VersionOne.  The default is Number (the value visible in the UI). We do not recommend changing this value.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>ChangeComment</td>
+<td class='confluenceTd'>Comment to put on the ChangeSet when it's created</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Settings</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>ApplicationUrl</td>
+<td class='confluenceTd'>VersionOne Application URL</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>Valid VersionOne Username. This user must have authority to create defects in the VersionOne projects being processed.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Password for specified user</td>
+</tr>
+<tr>
+<td class='confluenceTd'>APIVersion</td>
+<td class='confluenceTd'>The minimum application version required for this hosted service.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>IntegratedAuth</td>
+<td class='confluenceTd'>False if using VersionOne native security, true is using Windows Integrated Security. If VersionOne is configured to use Windows Integrated Security, the account the service is running as must be a configured VersionOne user with a project role of Team Member or higher. Also, Username and Password should be empty if IntegratedAuth is true.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Link</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Name</td>
+<td class='confluenceTd'>VersionOne Title for link </td>
+</tr>
+<tr>
+<td class='confluenceTd'>URL</td>
+<td class='confluenceTd'>URL for your repository viewer</td>
+</tr>
+<tr>
+<td class='confluenceTd'>OnMenu</td>
+<td class='confluenceTd'>Determines value for the "On Menu" checkbox.  If True, link appear as a tab in the Details panel. If false they do not appear as tabs.</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>The SvnReaderServiceTimer element controls the Subversion poll frequency.  The following table describes the elements nested under SvnReaderServiceTimer.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Interval</td>
+<td class='confluenceTd'>Number of milliseconds to wait between polls to the Subversion system</td>
+</tr>
+<tr>
+<td class='confluenceTd'>PublishClass</td>
+<td class='confluenceTd'>Do Not Change</td>
+</tr>
+</tbody></table>
+</div>
+
+
+
+                    			    </td>
+<td style="width:10%"/>
+		    </tr>
+	    </table>
+ 	    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td align="left"><font color="grey">Document generated on Aug 01, 2010 21:59</font></td>
+		    </tr>
+	    </table> 
+    </body>
+</html>
